@@ -1,5 +1,6 @@
 #!/bin/bash
 #step to install nodejs 12 version 
+#https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-20-04
 
 sudo apt update -y
 cd ~
