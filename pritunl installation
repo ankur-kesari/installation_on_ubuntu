@@ -18,4 +18,11 @@ sudo systemctl enable pritunl
 
 #https://www.techrepublic.com/article/how-to-install-the-pritunl-vpn-server-on-ubuntu-server-20-04/
 
+#to generate key
+sudo pritunl setup-key
+
+#to obtain default username and password
+sudo pritunl default-password
+
+
 
