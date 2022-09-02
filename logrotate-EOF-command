@@ -1,0 +1,10 @@
+#logrotate
+sudo bash cat << EOF > /etc/logrotate.d/
+/home/app/.pm2/logs/*.log {
+  rotate 3
+  weekly
+  compress
+  missingok
+  notifempty
+}
+EOF
