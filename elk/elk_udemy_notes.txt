@@ -1,0 +1,58 @@
+#!/bin/bash
+# doc - https://www.elastic.co/guide/en/elasticsearch/reference/current/deb.html
+sudo apt update -y
+wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
+sudo apt-get install apt-transport-https
+echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-8.x.list
+sudo apt-get update && sudo apt-get install elasticsearch
+sudo systemctl daemon-reload
+sudo systemctl enable elasticsearch.service
+ sudo systemctl start elasticsearch.service
+ #https://public_ip:9200 get password in  installation logs
+ 
+ #Kibana
+ # doc - https://www.elastic.co/guide/en/kibana/current/deb.html
+ wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg -y
+ echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-8.x.list
+ sudo apt-get update && sudo apt-get install kibana
+ cd /usr/share/elasticsearch/
+sudo bin/elasticsearch-create-enrollment-token -s kibana
+sudo /bin/systemctl daemon-reload
+sudo /bin/systemctl enable kibana.service
+sudo systemctl start kibana.service
+#localhost public_ip:5601 not working so I have install nginx or sudo su && vi /etc/kibana && server.host: "0.0.0.0" && sudo systemctl restart kibana
+sudo apt install nginx -y
+sudo vi /etc/nginx/sites-available/default
+
+
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+		
+        server_name <public_ip>;
+
+        location / {
+               proxy_pass http://localhost:5601;
+               proxy_http_version 1.1;
+               proxy_set_header Upgrade $http_upgrade;
+               proxy_set_header Connection 'upgrade';
+               proxy_set_header Host $host;
+               proxy_cache_bypass $http_upgrade;
+        }
+}
+
+sudo nginx -t
+sudo systemctl restart nginx
+sudo systemctl status nginx
+cd /usr/share/elasticsearch/
+sudo bin/elasticsearch-create-enrollment-token -s kibana
+#paste token
+cd /usr/share/kibana
+sudo bin/kibana-verification-code 
+#paste verfication code
+
+
+
+ 
+ 
+ 
