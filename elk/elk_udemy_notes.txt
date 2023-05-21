@@ -17,6 +17,7 @@ sudo systemctl enable elasticsearch.service
  sudo apt-get update && sudo apt-get install kibana
  cd /usr/share/elasticsearch/
 sudo bin/elasticsearch-create-enrollment-token -s kibana
+#set server.host: "0.0.0.0" in kibana.yaml
 sudo /bin/systemctl daemon-reload
 sudo /bin/systemctl enable kibana.service
 sudo systemctl start kibana.service
